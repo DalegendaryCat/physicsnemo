@@ -109,7 +109,7 @@ class ExternalAerodynamicsDataSource(DataSource):
                 raise FileNotFoundError(f"Volume data file not found: {volume_path}")
 
             # TODO (@saikrishnanc): Use pyvista to read the volume data.
-            reader = vtk.vtkXMLUnstructuredGridReader()
+            reader = vtk.vtkXMLUnstructuredGridReader() # CHANGED from XMLUnstructuredGrid to UnstructuredGrid to read vtk file instead of vtu
             reader.SetFileName(str(volume_path))
             reader.Update()
             volume_unstructured_grid = reader.GetOutput()

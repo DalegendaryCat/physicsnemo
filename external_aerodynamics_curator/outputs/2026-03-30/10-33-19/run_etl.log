@@ -1,0 +1,65 @@
+[2026-03-30 10:33:22,148][data_transformations][INFO] - Initializing ExternalAerodynamicsSurfaceTransformation with surface_variables: {'p': 'scalar', 'U': 'vector'} and surface_processors: [functools.partial(<function decimate_mesh at 0x7c2d03d468e0>, algo='decimate_pro', reduction=0.0, preserve_topology=False), functools.partial(<function normalize_surface_normals at 0x7c2d03d465c0>), functools.partial(<function non_dimensionalize_surface_fields at 0x7c2d03d46660>, air_density=1.225, stream_velocity=2.0), functools.partial(<function update_surface_data_to_float32 at 0x7c2d03d467a0>)]
+[2026-03-30 10:33:22,149][data_transformations][INFO] - This will only be processed if the model_type is surface/combined.
+[2026-03-30 10:33:22,149][data_transformations][INFO] - Initializing ExternalAerodynamicsVolumeTransformation with volume_variables: {'U': 'vector', 'p': 'scalar', 'nut': 'scalar'} and volume_processors: [functools.partial(<function non_dimensionalize_volume_fields at 0x7c2d03d46b60>), functools.partial(<function update_volume_data_to_float32 at 0x7c2d03d46ca0>), functools.partial(<function shuffle_volume_data at 0x7c2d03d46de0>)]
+[2026-03-30 10:33:22,149][data_transformations][INFO] - This will only be processed if the model_type is volume/combined.
+[2026-03-30 10:33:22,151][physicsnemo_curator.utils.utils][INFO] - Starting ETL pipeline
+[2026-03-30 10:33:22,151][ExternalAerodynamicsDatasetValidator][INFO] - Starting External Aerodynamics dataset validation (level: fields)
+[2026-03-30 10:33:22,151][ExternalAerodynamicsDatasetValidator][INFO] - Found 19 case directories to validate
+[2026-03-30 10:33:22,965][ExternalAerodynamicsDatasetValidator][WARNING] - Validation found 57 errors
+[2026-03-30 10:33:22,965][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1528b101_N/case_HDB_1528b101_N.stl: Geometry file not found
+[2026-03-30 10:33:22,965][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1528b101_N/case_HDB_1528b101_N.vtu: Volume data file not found
+[2026-03-30 10:33:22,965][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1528b101_N/case_HDB_1528b101_N.vtp: Surface data file not found
+[2026-03-30 10:33:22,965][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1590b114_S/case_HDB_1590b114_S.stl: Geometry file not found
+[2026-03-30 10:33:22,965][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1590b114_S/case_HDB_1590b114_S.vtu: Volume data file not found
+[2026-03-30 10:33:22,965][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1590b114_S/case_HDB_1590b114_S.vtp: Surface data file not found
+[2026-03-30 10:33:22,965][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1598b128_S/case_HDB_1598b128_S.stl: Geometry file not found
+[2026-03-30 10:33:22,965][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1598b128_S/case_HDB_1598b128_S.vtu: Volume data file not found
+[2026-03-30 10:33:22,965][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1598b128_S/case_HDB_1598b128_S.vtp: Surface data file not found
+[2026-03-30 10:33:22,966][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1616b028_W/case_HDB_1616b028_W.stl: Geometry file not found
+[2026-03-30 10:33:22,966][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1616b028_W/case_HDB_1616b028_W.vtu: Volume data file not found
+[2026-03-30 10:33:22,966][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1616b028_W/case_HDB_1616b028_W.vtp: Surface data file not found
+[2026-03-30 10:33:22,966][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1621b054_E/case_HDB_1621b054_E.stl: Geometry file not found
+[2026-03-30 10:33:22,966][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1621b054_E/case_HDB_1621b054_E.vtu: Volume data file not found
+[2026-03-30 10:33:22,966][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1621b054_E/case_HDB_1621b054_E.vtp: Surface data file not found
+[2026-03-30 10:33:22,966][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1631b111_S/case_HDB_1631b111_S.stl: Geometry file not found
+[2026-03-30 10:33:22,966][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1631b111_S/case_HDB_1631b111_S.vtu: Volume data file not found
+[2026-03-30 10:33:22,966][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1631b111_S/case_HDB_1631b111_S.vtp: Surface data file not found
+[2026-03-30 10:33:22,966][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1645b097_S/case_HDB_1645b097_S.stl: Geometry file not found
+[2026-03-30 10:33:22,966][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1645b097_S/case_HDB_1645b097_S.vtu: Volume data file not found
+[2026-03-30 10:33:22,966][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1645b097_S/case_HDB_1645b097_S.vtp: Surface data file not found
+[2026-03-30 10:33:22,966][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1648b036_E/case_HDB_1648b036_E.stl: Geometry file not found
+[2026-03-30 10:33:22,966][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1648b036_E/case_HDB_1648b036_E.vtu: Volume data file not found
+[2026-03-30 10:33:22,966][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1648b036_E/case_HDB_1648b036_E.vtp: Surface data file not found
+[2026-03-30 10:33:22,967][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1507b002_N/case_HDB_1507b002_N.stl: Geometry file not found
+[2026-03-30 10:33:22,967][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1507b002_N/case_HDB_1507b002_N.vtu: Volume data file not found
+[2026-03-30 10:33:22,967][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1507b002_N/case_HDB_1507b002_N.vtp: Surface data file not found
+[2026-03-30 10:33:22,967][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1566b110_S/case_HDB_1566b110_S.stl: Geometry file not found
+[2026-03-30 10:33:22,967][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1566b110_S/case_HDB_1566b110_S.vtu: Volume data file not found
+[2026-03-30 10:33:22,967][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1566b110_S/case_HDB_1566b110_S.vtp: Surface data file not found
+[2026-03-30 10:33:22,967][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1501b095_N/case_HDB_1501b095_N.stl: Geometry file not found
+[2026-03-30 10:33:22,967][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1501b095_N/case_HDB_1501b095_N.vtu: Volume data file not found
+[2026-03-30 10:33:22,967][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1501b095_N/case_HDB_1501b095_N.vtp: Surface data file not found
+[2026-03-30 10:33:22,967][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1506b010_N/case_HDB_1506b010_N.stl: Geometry file not found
+[2026-03-30 10:33:22,967][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1506b010_N/case_HDB_1506b010_N.vtu: Volume data file not found
+[2026-03-30 10:33:22,967][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1506b010_N/case_HDB_1506b010_N.vtp: Surface data file not found
+[2026-03-30 10:33:22,967][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1581b018_E/case_HDB_1581b018_E.stl: Geometry file not found
+[2026-03-30 10:33:22,967][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1581b018_E/case_HDB_1581b018_E.vtu: Volume data file not found
+[2026-03-30 10:33:22,968][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1581b018_E/case_HDB_1581b018_E.vtp: Surface data file not found
+[2026-03-30 10:33:22,968][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1504b022_N/case_HDB_1504b022_N.stl: Geometry file not found
+[2026-03-30 10:33:22,968][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1504b022_N/case_HDB_1504b022_N.vtu: Volume data file not found
+[2026-03-30 10:33:22,968][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1504b022_N/case_HDB_1504b022_N.vtp: Surface data file not found
+[2026-03-30 10:33:22,968][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1574b075_S/case_HDB_1574b075_S.stl: Geometry file not found
+[2026-03-30 10:33:22,968][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1574b075_S/case_HDB_1574b075_S.vtu: Volume data file not found
+[2026-03-30 10:33:22,968][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1574b075_S/case_HDB_1574b075_S.vtp: Surface data file not found
+[2026-03-30 10:33:22,968][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1523b079_N/case_HDB_1523b079_N.stl: Geometry file not found
+[2026-03-30 10:33:22,968][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1523b079_N/case_HDB_1523b079_N.vtu: Volume data file not found
+[2026-03-30 10:33:22,968][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1523b079_N/case_HDB_1523b079_N.vtp: Surface data file not found
+[2026-03-30 10:33:22,968][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1531b136_S/case_HDB_1531b136_S.stl: Geometry file not found
+[2026-03-30 10:33:22,968][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1531b136_S/case_HDB_1531b136_S.vtu: Volume data file not found
+[2026-03-30 10:33:22,968][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1531b136_S/case_HDB_1531b136_S.vtp: Surface data file not found
+[2026-03-30 10:33:22,968][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1546b067_S/case_HDB_1546b067_S.stl: Geometry file not found
+[2026-03-30 10:33:22,968][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1546b067_S/case_HDB_1546b067_S.vtu: Volume data file not found
+[2026-03-30 10:33:22,969][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1546b067_S/case_HDB_1546b067_S.vtp: Surface data file not found
+[2026-03-30 10:33:22,969][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1578b034_W/case_HDB_1578b034_W.stl: Geometry file not found
+[2026-03-30 10:33:22,969][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1578b034_W/case_HDB_1578b034_W.vtu: Volume data file not found
+[2026-03-30 10:33:22,969][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1578b034_W/case_HDB_1578b034_W.vtp: Surface data file not found

@@ -4,7 +4,7 @@
 # into train/test/validation split. Also runs file format conversion to produce
 # .vtu and .vtp files ready for the ETL pipeline.
 #
-# Usage: python3 reconstruct_cases_with_rotation.py /path/to/cases/directory
+# Usage: python3 reconstruct_cases_with_rotation.py /path/to/cases/directory /path/to/output/directory
 
 import os
 import subprocess
@@ -23,15 +23,19 @@ RECONSTRUCT_OPTS = ["-time", TIME]
 VTK_OPTS = ["-time", TIME]
 OUTPUT_DIR = "/home/nguye/physicsnemo/Dataset/hdb_input_rotated"
 SPLIT = {"train": 0.8, "test": 0.1, "validation": 0.1}
-RANDOM_SEED = 42        # Set to None for a different split every run
-MAX_WORKERS = 4         # Number of cases to process in parallel
+RANDOM_SEED = 42
+MAX_WORKERS = 4
+
+# Required fields that must exist in the TIME folder for a case to be
+# considered fully reconstructed. Add or remove fields as needed.
+REQUIRED_FIELDS = ["U", "p", "nut", "p_rgh", "T"]
 
 # Rotation angles to align all cases to North direction
 ROTATION_MAP = {
-    "N": 0,    # no rotation needed
-    "S": 180,  # rotate 180°
-    "E": 90,   # rotate 90°
-    "W": 270,  # rotate 270°
+    "N": 0,
+    "S": 180,
+    "E": 90,
+    "W": 270,
 }
 
 # ─── OpenFOAM helpers ────────────────────────────────────────────────────────
@@ -43,6 +47,29 @@ def is_openfoam_case(path):
         if os.path.isdir(os.path.join(path, d))
     )
     return has_system, has_processors
+
+
+def check_time_folder(case_path):
+    """
+    Check if the TIME folder exists and contains all required fields.
+
+    Returns:
+        (is_complete, missing_fields)
+        is_complete   — True if TIME folder exists and no fields are missing
+        missing_fields — list of missing field names (empty if complete)
+    """
+    time_dir = os.path.join(case_path, TIME)
+    if not os.path.isdir(time_dir):
+        return False, REQUIRED_FIELDS
+
+    # Fields can be plain files or .gz compressed
+    present = set()
+    for f in os.listdir(time_dir):
+        name = f.replace(".gz", "").strip()
+        present.add(name)
+
+    missing = [f for f in REQUIRED_FIELDS if f not in present]
+    return len(missing) == 0, missing
 
 
 def run_command(cmd, log_path):
@@ -72,7 +99,7 @@ def find_buildings_vtk_file(case_path):
     return None
 
 
-# ─── File format conversion (from file_format_converter.py) ──────────────────
+# ─── File format conversion ───────────────────────────────────────────────────
 
 def convert_vtk_to_vtu(vtk_filename: str, vtu_filename: str) -> None:
     """Convert full domain .vtk (UnstructuredGrid) to .vtu."""
@@ -125,31 +152,43 @@ def process_case(args):
     """Reconstruct and convert a single OpenFOAM case. Runs in a worker process."""
     cases_dir, case_name = args
     case_path = os.path.join(cases_dir, case_name)
-    status = {"case": case_name, "success": False, "error": None}
+    status = {"case": case_name, "success": False, "error": None, "skipped_recon": False}
 
-    # reconstructPar
-    log_path = os.path.join(case_path, "reconstructPar.log")
-    cmd = ["reconstructPar"] + RECONSTRUCT_OPTS + ["-case", case_path]
-    if not run_command(cmd, log_path):
-        status["error"] = "reconstructPar failed"
-        return status
+    # ── Check if already reconstructed ───────────────────────────────────────
+    is_complete, missing = check_time_folder(case_path)
 
-    # Rotate case to North direction based on wind direction in filename
-    direction = case_name.split("_")[-1].upper()
-    rotation_angle = ROTATION_MAP.get(direction, 0)
-    if rotation_angle != 0:
-        rotate_log_path = os.path.join(case_path, "transformPoints.log")
-        rotate_cmd = [
-            "transformPoints",
-            f"Rz={rotation_angle}",
-            "-rotateFields",
-            "-case", case_path,
-        ]
-        if not run_command(rotate_cmd, rotate_log_path):
-            status["error"] = f"transformPoints failed (Rz={rotation_angle})"
+    if is_complete:
+        print(f"  [SKIP] {case_name} — time {TIME} complete, skipping reconstructPar")
+        status["skipped_recon"] = True
+    else:
+        if os.path.isdir(os.path.join(case_path, TIME)):
+            print(f"  [WARN] {case_name} — time {TIME} exists but missing fields: {missing}")
+        else:
+            print(f"  [INFO] {case_name} — time {TIME} not found, running reconstructPar")
+
+        # reconstructPar
+        log_path = os.path.join(case_path, "reconstructPar.log")
+        cmd = ["reconstructPar"] + RECONSTRUCT_OPTS + ["-case", case_path]
+        if not run_command(cmd, log_path):
+            status["error"] = "reconstructPar failed"
             return status
 
-    # foamToVTK
+        # Rotate to North
+        direction = case_name.split("_")[-1].upper()
+        rotation_angle = ROTATION_MAP.get(direction, 0)
+        if rotation_angle != 0:
+            rotate_log_path = os.path.join(case_path, "transformPoints.log")
+            rotate_cmd = [
+                "transformPoints",
+                "-rotateFields",
+                "-case", case_path,
+                f"Rz={rotation_angle}",
+            ]
+            if not run_command(rotate_cmd, rotate_log_path):
+                status["error"] = f"transformPoints failed (Rz={rotation_angle})"
+                return status
+
+    # foamToVTK — always run to ensure VTK files are up to date
     vtk_log_path = os.path.join(case_path, "foamToVTK.log")
     vtk_cmd = ["foamToVTK"] + VTK_OPTS + ["-case", case_path]
     if not run_command(vtk_cmd, vtk_log_path):
@@ -184,18 +223,25 @@ def main():
 
     if len(sys.argv) < 2:
         cases_dir = DEFAULT_CASES_DIR
-        print(f"No path provided — using default: {cases_dir}")
+        print(f"No cases dir provided — using default: {cases_dir}")
     else:
         cases_dir = os.path.abspath(sys.argv[1])
+
+    if len(sys.argv) < 3:
+        output_dir = OUTPUT_DIR
+        print(f"No output dir provided — using default: {output_dir}")
+    else:
+        output_dir = os.path.abspath(sys.argv[2])
 
     total_start = time.perf_counter()
 
     print("============================================")
     print(" OpenFOAM Batch Reconstruction + VTK Export")
     print(f" Cases dir:    {cases_dir}")
-    print(f" Output dir:   {OUTPUT_DIR}")
+    print(f" Output dir:   {output_dir}")
     print(f" Time:         {TIME}")
     print(f" Workers:      {MAX_WORKERS}")
+    print(f" Required fields: {REQUIRED_FIELDS}")
     print(f" Split:        train={int(SPLIT['train']*100)}% / test={int(SPLIT['test']*100)}% / validation={int(SPLIT['validation']*100)}%")
     print("============================================\n")
 
@@ -205,7 +251,7 @@ def main():
 
     # Create output directories
     for split in SPLIT:
-        os.makedirs(os.path.join(OUTPUT_DIR, split), exist_ok=True)
+        os.makedirs(os.path.join(output_dir, split), exist_ok=True)
 
     # Find valid cases
     all_subdirs = sorted([
@@ -240,7 +286,8 @@ def main():
             result = future.result()
             case_name = result["case"]
             if result["success"]:
-                print(f"  + {case_name}")
+                tag = "(recon skipped)" if result["skipped_recon"] else ""
+                print(f"  + {case_name} {tag}")
                 success.append(case_name)
             else:
                 print(f"  x {case_name} — {result['error']}")
@@ -266,7 +313,7 @@ def main():
         for case_name in case_list:
             case_start = time.perf_counter()
             case_path = os.path.join(cases_dir, case_name)
-            dest_case_dir = os.path.join(OUTPUT_DIR, split_name, case_name)
+            dest_case_dir = os.path.join(output_dir, split_name, case_name)
             os.makedirs(dest_case_dir, exist_ok=True)
 
             # ── 1. Convert buildings VTK -> VTP ───────────────────────────────
@@ -279,7 +326,7 @@ def main():
                 print(f"  - No buildings VTK found for '{case_name}'")
                 vtp_dest = None
 
-            # ── 2. Convert VTP -> STL (higher resolution than triSurface STL) ──
+            # ── 2. Convert VTP -> STL ─────────────────────────────────────────
             if vtp_dest and os.path.exists(vtp_dest):
                 stl_dest = os.path.join(dest_case_dir, f"{case_name}.stl")
                 convert_vtp_to_stl(vtp_dest, stl_dest)
@@ -320,15 +367,15 @@ def main():
     print("============================================")
     print(f"\n Timing breakdown:")
     print(f"   Reconstruction + rotate + foamToVTK : {recon_elapsed:.1f}s ({recon_elapsed/60:.1f} min)")
-    print(f"   Organise + convert         : {organise_elapsed:.1f}s ({organise_elapsed/60:.1f} min)")
-    print(f"   Total                      : {total_elapsed:.1f}s ({total_elapsed/60:.1f} min)")
+    print(f"   Organise + convert                  : {organise_elapsed:.1f}s ({organise_elapsed/60:.1f} min)")
+    print(f"   Total                               : {total_elapsed:.1f}s ({total_elapsed/60:.1f} min)")
     print("============================================")
     print(f"\nOutput structure per case:")
-    print(f"  {OUTPUT_DIR}/<split>/<case_name>/")
-    print(f"    <case_name>.stl   (converted from VTK/buildings/<>.vtk via VTP)")
-    print(f"    <case_name>.vtp   (converted from VTK/buildings/<>.vtk)")
-    print(f"    <case_name>.vtu   (converted from VTK/<case_name>.vtk)")
-    print(f"\nDataset saved to: {OUTPUT_DIR}")
+    print(f"  {output_dir}/<split>/<case_name>/")
+    print(f"    <case_name>.stl   (from VTK/buildings/<>.vtk via VTP)")
+    print(f"    <case_name>.vtp   (from VTK/buildings/<>.vtk)")
+    print(f"    <case_name>.vtu   (from VTK/<case_name>.vtk)")
+    print(f"\nDataset saved to: {output_dir}")
 
 
 if __name__ == "__main__":

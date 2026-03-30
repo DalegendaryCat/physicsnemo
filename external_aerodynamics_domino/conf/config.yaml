@@ -20,7 +20,7 @@
 project: # Project name
   name: hdb_flowfield
   
-exp_tag: 12 # Experiment tag
+exp_tag: 13 # Experiment tag
 # Main output directory.
 project_dir: /home/nguye/physicsnemo/outputs/${project.name}/
 output: /home/nguye/physicsnemo/outputs/${project.name}/${exp_tag}
@@ -71,8 +71,8 @@ variables:
 # │         Data Configs                      │
 # └───────────────────────────────────────────┘  
 data: # Input directory for training and validation data
-  input_dir: /home/nguye/physicsnemo/Dataset/hdb_processed_rotated/train
-  input_dir_val: /home/nguye/physicsnemo/Dataset/hdb_processed_rotated/validation
+  input_dir: /home/nguye/physicsnemo/Dataset/test_vtk_curator/train
+  input_dir_val: /home/nguye/physicsnemo/Dataset/test_vtk_curator/validation
   bounding_box: # Bounding box dimensions for computational domain
     min: [-550, -550, 0]
     max: [550, 550, 120]
@@ -177,8 +177,8 @@ model:
 # │          Training Configs                 │
 # └───────────────────────────────────────────┘  
 train: # Training configurable parameters
-  epochs: 500
-  checkpoint_interval: 2
+  epochs: 1000
+  checkpoint_interval: 5
   dataloader:
     batch_size: 1
     preload_depth: 1
@@ -190,7 +190,7 @@ train: # Training configurable parameters
   add_physics_loss: false
   lr_scheduler:
     name: MultiStepLR # Also supports CosineAnnealingLR  
-    milestones: [50, 120, 200, 280, 350, 420, 470] # only used if lr_scheduler is MultiStepLR
+    milestones: [50, 120, 200, 280, 350, 420, 470, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 1980, 2000] # only used if lr_scheduler is MultiStepLR
     gamma: 0.5 # only used if lr_scheduler is MultiStepLR
     T_max: ${train.epochs} # only used if lr_scheduler is CosineAnnealingLR
     eta_min: 1e-6 # only used if lr_scheduler is CosineAnnealingLR
@@ -225,9 +225,9 @@ val: # Validation configurable parameters
 # │          Testing data Configs             │
 # └───────────────────────────────────────────┘  
 eval: # Testing configurable parameters
-  test_path: /home/nguye/physicsnemo/Dataset/hdb_input_rotated/test # Dir for testing data in raw format (vtp, vtu ,stls)
+  test_path: /home/nguye/physicsnemo/Dataset/test_vtk_curator/test # Dir for testing data in raw format (vtp, vtu ,stls)
   save_path: /home/nguye/physicsnemo/outputs/hdb_flowfield/${exp_tag}/predictions # Dir to save predicted results in raw format (vtp, vtu)
-  checkpoint_name: DoMINO.0.495.pt # Name of checkpoint to select from saved checkpoints
+  checkpoint_name: DoMINO.0.994.pt # Name of checkpoint to select from saved checkpoints
   scaling_param_path: /home/nguye/physicsnemo/outputs/hdb_flowfield/${exp_tag}
   refine_stl: False # Automatically refine STL during inference
   #TODO -  This was hardcoded anyways, remove it.

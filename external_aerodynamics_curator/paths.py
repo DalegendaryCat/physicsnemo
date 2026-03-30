@@ -180,11 +180,25 @@ class HDBPaths:
     
     @staticmethod
     def surface_path(building_dir: Path) -> Path:
-        return building_dir / f"{building_dir.name}.vtp"
+        return building_dir / f"{building_dir.name}.vtp" # changed
     
     @staticmethod
     def volume_path(building_dir: Path) -> Path:
-        return building_dir / f"{building_dir.name}.vtu"
+        return building_dir / f"{building_dir.name}.vtu" # changed
+
+class HDBPaths2:
+    """alternative path to extract directly from case"""
+    @staticmethod
+    def geometry_path(building_dir: Path) -> Path:
+        return building_dir / f"VTK/buildings/{building_dir.name}.stl"
+    
+    @staticmethod
+    def surface_path(building_dir: Path) -> Path:
+        return building_dir / "VTK/buildings/buildings_1.vtp" # might have to change to vtk
+    
+    @staticmethod
+    def volume_path(building_dir: Path) -> Path:
+        return building_dir / f"VTK/{building_dir.name}_1.vtu"
 
 def get_path_getter(kind: DatasetKind):
     """Returns path getter for a given dataset type."""

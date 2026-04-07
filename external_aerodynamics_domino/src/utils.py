@@ -433,9 +433,9 @@ def metrics_fn_surface(
 
     metrics = {
         "l2_surf_pressure": torch.mean(l2[:, 0]),
-        "l2_shear_x": torch.mean(l2[:, 1]),
-        "l2_shear_y": torch.mean(l2[:, 2]),
-        "l2_shear_z": torch.mean(l2[:, 3]),
+        # "l2_surf_velocity_x": torch.mean(l2[:, 1]),
+        # "l2_surf_velocity_y": torch.mean(l2[:, 2]),
+        # "l2_surf_velocity_z": torch.mean(l2[:, 3]),
     }
 
     return metrics
@@ -460,10 +460,10 @@ def metrics_fn_volume(
 
     metrics = {
         "l2_vol_pressure": torch.mean(l2[:, 3]),
-        "l2_velocity_x": torch.mean(l2[:, 0]),
-        "l2_velocity_y": torch.mean(l2[:, 1]),
-        "l2_velocity_z": torch.mean(l2[:, 2]),
-        # "l2_nut": torch.mean(l2[:, 4]),
+        "l2_U_x": torch.mean(l2[:, 0]),
+        "l2_U_y": torch.mean(l2[:, 1]),
+        "l2_U_z": torch.mean(l2[:, 2]),
+        "l2_nut": torch.mean(l2[:, 4]),
     }
 
     return metrics

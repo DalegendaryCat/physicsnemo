@@ -1,0 +1,12 @@
+[2026-04-05 15:02:53,901][data_transformations][INFO] - Initializing ExternalAerodynamicsSurfaceTransformation with surface_variables: {'p': 'scalar', 'U': 'vector'} and surface_processors: [functools.partial(<function decimate_mesh at 0x7dfb6ddb4c20>, algo='decimate_pro', reduction=0.0, preserve_topology=False), functools.partial(<function normalize_surface_normals at 0x7dfb6ddb4900>), functools.partial(<function non_dimensionalize_surface_fields at 0x7dfb6ddb49a0>, air_density=1.225, stream_velocity=2.0), functools.partial(<function update_surface_data_to_float32 at 0x7dfb6ddb4ae0>)]
+[2026-04-05 15:02:53,902][data_transformations][INFO] - This will only be processed if the model_type is surface/combined.
+[2026-04-05 15:02:53,902][data_transformations][INFO] - Initializing ExternalAerodynamicsVolumeTransformation with volume_variables: {'U': 'vector', 'p': 'scalar', 'nut': 'scalar'} and volume_processors: [functools.partial(<function non_dimensionalize_volume_fields at 0x7dfb6ddb4ea0>), functools.partial(<function update_volume_data_to_float32 at 0x7dfb6ddb4fe0>), functools.partial(<function shuffle_volume_data at 0x7dfb6ddb5120>)]
+[2026-04-05 15:02:53,902][data_transformations][INFO] - This will only be processed if the model_type is volume/combined.
+[2026-04-05 15:02:53,904][physicsnemo_curator.utils.utils][INFO] - Starting ETL pipeline
+[2026-04-05 15:02:53,904][ExternalAerodynamicsDatasetValidator][INFO] - Starting External Aerodynamics dataset validation (level: fields)
+[2026-04-05 15:02:53,904][ExternalAerodynamicsDatasetValidator][INFO] - Found 15 case directories to validate
+[2026-04-05 15:02:55,095][ExternalAerodynamicsDatasetValidator][INFO] - Validation completed successfully
+[2026-04-05 15:03:04,711][physicsnemo_curator.utils.utils][INFO] - 
+Processing Summary:
+[2026-04-05 15:03:04,712][physicsnemo_curator.utils.utils][INFO] - Number of processes: 12
+[2026-04-05 15:03:04,712][physicsnemo_curator.utils.utils][INFO] - Total wall clock time: 9.61 seconds

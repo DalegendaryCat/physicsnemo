@@ -46,7 +46,7 @@ from torch.utils.data.distributed import DistributedSampler
 
 from physicsnemo.distributed import DistributedManager
 from physicsnemo.utils import load_checkpoint
-from physicsnemo.launch.logging import PythonLogger, RankZeroLoggingWrapper
+from physicsnemo.utils.logging import PythonLogger, RankZeroLoggingWrapper
 
 from physicsnemo.datapipes.cae.domino_datapipe import (
     DoMINODataPipe,
@@ -55,24 +55,13 @@ from physicsnemo.datapipes.cae.domino_datapipe import (
 
 
 from physicsnemo.models.domino.model import DoMINO
-from physicsnemo.utils.domino.utils import sample_points_on_mesh
+from physicsnemo.models.domino.utils import sample_points_on_mesh
 
-from utils import ScalingFactors, get_keys_to_read, coordinate_distributed_environment, load_scaling_factors
+from utils import ScalingFactors, get_keys_to_read, coordinate_distributed_environment
 
 # This is included for GPU memory tracking:
 from pynvml import nvmlInit, nvmlDeviceGetHandleByIndex, nvmlDeviceGetMemoryInfo
 import time
-
-
-# Initialize NVML
-nvmlInit()
-
-
-from physicsnemo.utils.profiling import profile, Profiler
-
-
-from loss import compute_loss_dict
-from utils import get_num_vars
 
 
 def reject_interior_volume_points(

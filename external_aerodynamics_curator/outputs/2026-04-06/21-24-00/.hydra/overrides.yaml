@@ -1,0 +1,4 @@
+- etl.source.input_dir=/home/nguye/physicsnemo/Dataset/testing_output/train
+- etl.sink.output_dir=/home/nguye/physicsnemo/Dataset/testing_output_processed_2/train
+- etl.common.model_type=combined
+- serialization_format=numpy

@@ -20,7 +20,7 @@
 project: # Project name
   name: hdb_flowfield
   
-exp_tag: 4 # Experiment tag
+exp_tag: 16 # Experiment tag
 # Main output directory.
 project_dir: /home/nguye/physicsnemo/outputs/${project.name}/
 output: /home/nguye/physicsnemo/outputs/${project.name}/${exp_tag}
@@ -50,19 +50,19 @@ data_processor: # Data processor configurable parameters
 variables:
   surface:
     solution:
-      # The following is for AWS DrivAer dataset.
+      # The following is for hdb_non_dir dataset.
       p: scalar
       U: vector
   volume:
     solution:
-      # The following is for AWS DrivAer dataset.
+      # The following is for hdb_non_dir dataset.
       U: vector
       p: scalar
-      # nut: scalar
+      nut: scalar
   global_parameters:
     inlet_velocity:
       type: vector
-      reference: [2.0, 2.0] # vector [30, 0, 0] should be specified as [30], while [30, 30, 0] should be [30, 30].
+      reference: [2.0] # vector [30, 0, 0] should be specified as [30], while [30, 30, 0] should be [30, 30].
     air_density:
       type: scalar
       reference: 1.225
@@ -71,20 +71,20 @@ variables:
 # │         Data Configs                      │
 # └───────────────────────────────────────────┘  
 data: # Input directory for training and validation data
-  input_dir: /home/nguye/physicsnemo/Dataset/hdb_processed/train
-  input_dir_val: /home/nguye/physicsnemo/Dataset/hdb_processed/validation
+  input_dir: /home/nguye/physicsnemo/Dataset/testing_output_processed/train
+  input_dir_val: /home/nguye/physicsnemo/Dataset/testing_output_processed/validation
   bounding_box: # Bounding box dimensions for computational domain
-    min: [-750, -750, 0]
-    max: [750, 750, 200]
+    min: [-550, -550, 0]
+    max: [550, 550, 120]
   bounding_box_surface: # Bounding box dimensions for car surface
-    min: [-502, -506, 0]
-    max: [502, 506, 119]
+    min: [-520, -520, 0]
+    max: [520, 520, 120]
   gpu_preprocessing: true
   gpu_output: true
   normalize_coordinates: true
   sample_in_bbox: true
   sampling: true
-  scaling_factors: ${project_dir}/scaling_factors/scaling_factors.pkl
+  scaling_factors: ${project_dir}/${exp_tag}/scaling_factors/scaling_factors.pkl
   volume_sample_from_disk: false # small data, big then use true?
   max_samples_for_statistics: 15
 
@@ -103,11 +103,11 @@ model:
   model_type: combined # train which model? surface, volume, combined
   activation: "gelu" # "relu" or "gelu"
   loss_function: 
-    loss_type: "mse" # mse or rmse
+    loss_type: "rmse" # mse or rmse
     area_weighing_factor: 0.1 # Generally inverse of maximum area
   interp_res: [128, 64, 64] # resolution of latent space 128, 64, 48
   use_sdf_in_basis_func: true # SDF in basis function network
-  volume_points_sample: 8192 # Number of points to sample in volume per epoch
+  volume_points_sample: 4096 # Number of points to sample in volume per epoch
   surface_points_sample: 512 # Number of points to sample on surface per epoch
   surface_sampling_algorithm: area_weighted #random or area_weighted
   geom_points_sample: 512 # Number of points to sample on STL per epoch
@@ -121,7 +121,7 @@ model:
   normalization: min_max_scaling # or mean_std_scaling
   encode_parameters: true # encode inlet velocity and air density in the model
   surf_loss_scaling: 5.0 # scale surface loss with this factor in combined mode
-  vol_loss_scaling: 1.0 # scale volume loss with this factor in combined mode
+  vol_loss_scaling: 5.0 # scale volume loss with this factor in combined mode
   geometry_encoding_type: both # geometry encoder type, sdf, stl, both
   solution_calculation_mode: two-loop # one-loop is better for sharded, two-loop is lower memory but more overhead. Physics losses are not supported via one-loop presently.
   geometry_rep: # Hyperparameters for geometry representation network
@@ -177,8 +177,8 @@ model:
 # │          Training Configs                 │
 # └───────────────────────────────────────────┘  
 train: # Training configurable parameters
-  epochs: 500
-  checkpoint_interval: 2
+  epochs: 1500
+  checkpoint_interval: 10
   dataloader:
     batch_size: 1
     preload_depth: 1
@@ -190,7 +190,7 @@ train: # Training configurable parameters
   add_physics_loss: false
   lr_scheduler:
     name: MultiStepLR # Also supports CosineAnnealingLR  
-    milestones: [50, 120, 200, 280, 350, 420, 470] # only used if lr_scheduler is MultiStepLR
+    milestones: [50, 120, 200, 280, 350, 420, 470, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 1980, 2000] # only used if lr_scheduler is MultiStepLR
     gamma: 0.5 # only used if lr_scheduler is MultiStepLR
     T_max: ${train.epochs} # only used if lr_scheduler is CosineAnnealingLR
     eta_min: 1e-6 # only used if lr_scheduler is CosineAnnealingLR
@@ -225,10 +225,10 @@ val: # Validation configurable parameters
 # │          Testing data Configs             │
 # └───────────────────────────────────────────┘  
 eval: # Testing configurable parameters
-  test_path: /home/nguye/physicsnemo/Dataset/hdb_input/test # Dir for testing data in raw format (vtp, vtu ,stls)
-  save_path: /home/nguye/physicsnemo/outputs/hdb_flowfield/predictions # Dir to save predicted results in raw format (vtp, vtu)
-  checkpoint_name: DoMINO.0.301.pt # Name of checkpoint to select from saved checkpoints
-  scaling_param_path: /home/nguye/physicsnemo/outputs/hdb_flowfield
+  test_path: /home/nguye/physicsnemo/Dataset/testing_output/test # Dir for testing data in raw format (vtp, vtu ,stls)
+  save_path: /home/nguye/physicsnemo/outputs/hdb_flowfield/${exp_tag}/predictions # Dir to save predicted results in raw format (vtp, vtu)
+  checkpoint_name: DoMINO.0.999.mdlus # Name of checkpoint to select from saved checkpoints
+  scaling_param_path: /home/nguye/physicsnemo/outputs/hdb_flowfield/${exp_tag}
   refine_stl: False # Automatically refine STL during inference
   #TODO -  This was hardcoded anyways, remove it.
   # stencil_size: 7 # Stencil size for evaluating surface and volume model

@@ -57,15 +57,15 @@ import torch.cuda.nvtx as nvtx
 
 
 from physicsnemo.distributed import DistributedManager
-from physicsnemo.launch.utils import load_checkpoint, save_checkpoint
-from physicsnemo.launch.logging import PythonLogger, RankZeroLoggingWrapper
+from physicsnemo.utils import load_checkpoint, save_checkpoint
+from physicsnemo.utils.logging import PythonLogger, RankZeroLoggingWrapper
 
 from physicsnemo.datapipes.cae.domino_datapipe import (
     DoMINODataPipe,
     create_domino_dataset,
 )
 from physicsnemo.models.domino.model import DoMINO
-from physicsnemo.utils.domino.utils import create_directory
+from physicsnemo.models.domino.utils import create_directory
 
 from utils import ScalingFactors, get_keys_to_read, coordinate_distributed_environment
 

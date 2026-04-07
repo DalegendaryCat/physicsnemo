@@ -17,13 +17,13 @@
 import torch
 from typing import Literal, Any
 
-from physicsnemo.utils.domino.utils import unnormalize
+from physicsnemo.models.domino.utils import unnormalize
 
 from typing import Literal, Any
 
 import torch.cuda.nvtx as nvtx
 
-from physicsnemo.utils.domino.utils import *
+from physicsnemo.models.domino.utils import *
 
 
 def compute_physics_loss(
@@ -374,6 +374,7 @@ def loss_fn_area(
 
     # Combine the scalar and vector components:
     loss = 0.25 * (masked_loss_pres + torch.sum(masked_loss_ws))
+    # loss = masked_loss_pres
 
     return loss
 
@@ -508,7 +509,13 @@ def compute_loss_dict(
         surface_normals = batch_inputs["surface_normals"]
 
         # Needs to be taken from the dataset
-        stream_velocity = batch_inputs["global_params_values"][:, 0, :]
+        # stream_velocity = batch_inputs["global_params_values"][:, 0, :]
+
+        # Use magnitude of inlet velocity vector [Ux, Uy]
+        stream_velocity = torch.sqrt(
+            batch_inputs["global_params_values"][:, 0, :]**2 +
+            batch_inputs["global_params_values"][:, 1, :]**2
+        )
 
         loss_surf = loss_fn_surface(
             prediction_surf,
@@ -543,6 +550,7 @@ def compute_loss_dict(
                 padded_value=-10,
             )
         ) * integral_scaling_factor
+        # loss_integral = torch.tensor(0.0, device = prediction_surf.device)
         loss_dict["loss_integral"] = loss_integral
         total_loss_terms.append(loss_integral)
 

@@ -1,0 +1,4 @@
+- etl.source.input_dir=/scratch/phong/testing_output/v2_runs
+- etl.sink.output_dir=/scratch/phong/testing_output_processed_2/v2_runs
+- etl.common.model_type=combined
+- serialization_format=numpy

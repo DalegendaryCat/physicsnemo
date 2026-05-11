@@ -1,0 +1,46 @@
+[2026-03-27 12:14:24,303][data_transformations][INFO] - Initializing ExternalAerodynamicsSurfaceTransformation with surface_variables: {'p': 'scalar', 'U': 'vector'} and surface_processors: [functools.partial(<function decimate_mesh at 0x7834d9d4a840>, algo='decimate_pro', reduction=0.0, preserve_topology=False), functools.partial(<function normalize_surface_normals at 0x7834d9d4a520>), functools.partial(<function non_dimensionalize_surface_fields at 0x7834d9d4a5c0>, air_density=1.225, stream_velocity=2.0), functools.partial(<function update_surface_data_to_float32 at 0x7834d9d4a700>)]
+[2026-03-27 12:14:24,303][data_transformations][INFO] - This will only be processed if the model_type is surface/combined.
+[2026-03-27 12:14:24,304][data_transformations][INFO] - Initializing ExternalAerodynamicsVolumeTransformation with volume_variables: {'U': 'vector', 'p': 'scalar', 'nut': 'scalar'} and volume_processors: [functools.partial(<function non_dimensionalize_volume_fields at 0x7834d9d4aac0>), functools.partial(<function update_volume_data_to_float32 at 0x7834d9d4ac00>), functools.partial(<function shuffle_volume_data at 0x7834d9d4ad40>)]
+[2026-03-27 12:14:24,304][data_transformations][INFO] - This will only be processed if the model_type is volume/combined.
+[2026-03-27 12:14:24,306][physicsnemo_curator.utils.utils][INFO] - Starting ETL pipeline
+[2026-03-27 12:14:24,306][ExternalAerodynamicsDatasetValidator][INFO] - Starting External Aerodynamics dataset validation (level: fields)
+[2026-03-27 12:14:24,306][ExternalAerodynamicsDatasetValidator][INFO] - Found 19 case directories to validate
+[2026-03-27 12:14:25,137][ExternalAerodynamicsDatasetValidator][WARNING] - Validation found 38 errors
+[2026-03-27 12:14:25,137][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1507b002_N/VTK/buildings/buildings_1.vtp: Geometry file not found
+[2026-03-27 12:14:25,137][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1507b002_N/VTK/case_HDB_1507b002_N.vtk: Volume data file not found
+[2026-03-27 12:14:25,137][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1590b114_S/VTK/buildings/buildings_1.vtp: Geometry file not found
+[2026-03-27 12:14:25,137][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1590b114_S/VTK/case_HDB_1590b114_S.vtk: Volume data file not found
+[2026-03-27 12:14:25,137][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1598b128_S/VTK/buildings/buildings_1.vtp: Geometry file not found
+[2026-03-27 12:14:25,138][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1598b128_S/VTK/case_HDB_1598b128_S.vtk: Volume data file not found
+[2026-03-27 12:14:25,138][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1616b028_W/VTK/buildings/buildings_1.vtp: Geometry file not found
+[2026-03-27 12:14:25,138][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1616b028_W/VTK/case_HDB_1616b028_W.vtk: Volume data file not found
+[2026-03-27 12:14:25,138][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1621b054_E/VTK/buildings/buildings_1.vtp: Geometry file not found
+[2026-03-27 12:14:25,138][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1621b054_E/VTK/case_HDB_1621b054_E.vtk: Volume data file not found
+[2026-03-27 12:14:25,138][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1504b022_N/VTK/buildings/buildings_1.vtp: Geometry file not found
+[2026-03-27 12:14:25,138][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1504b022_N/VTK/case_HDB_1504b022_N.vtk: Volume data file not found
+[2026-03-27 12:14:25,138][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1631b111_S/VTK/buildings/buildings_1.vtp: Geometry file not found
+[2026-03-27 12:14:25,138][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1631b111_S/VTK/case_HDB_1631b111_S.vtk: Volume data file not found
+[2026-03-27 12:14:25,138][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1645b097_S/VTK/buildings/buildings_1.vtp: Geometry file not found
+[2026-03-27 12:14:25,139][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1645b097_S/VTK/case_HDB_1645b097_S.vtk: Volume data file not found
+[2026-03-27 12:14:25,139][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1648b036_E/VTK/buildings/buildings_1.vtp: Geometry file not found
+[2026-03-27 12:14:25,139][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1648b036_E/VTK/case_HDB_1648b036_E.vtk: Volume data file not found
+[2026-03-27 12:14:25,139][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1528b101_N/VTK/buildings/buildings_1.vtp: Geometry file not found
+[2026-03-27 12:14:25,139][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1528b101_N/VTK/case_HDB_1528b101_N.vtk: Volume data file not found
+[2026-03-27 12:14:25,139][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1523b079_N/VTK/buildings/buildings_1.vtp: Geometry file not found
+[2026-03-27 12:14:25,139][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1523b079_N/VTK/case_HDB_1523b079_N.vtk: Volume data file not found
+[2026-03-27 12:14:25,139][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1531b136_S/VTK/buildings/buildings_1.vtp: Geometry file not found
+[2026-03-27 12:14:25,139][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1531b136_S/VTK/case_HDB_1531b136_S.vtk: Volume data file not found
+[2026-03-27 12:14:25,139][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1566b110_S/VTK/buildings/buildings_1.vtp: Geometry file not found
+[2026-03-27 12:14:25,140][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1566b110_S/VTK/case_HDB_1566b110_S.vtk: Volume data file not found
+[2026-03-27 12:14:25,140][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1578b034_W/VTK/buildings/buildings_1.vtp: Geometry file not found
+[2026-03-27 12:14:25,140][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1578b034_W/VTK/case_HDB_1578b034_W.vtk: Volume data file not found
+[2026-03-27 12:14:25,140][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1501b095_N/VTK/buildings/buildings_1.vtp: Geometry file not found
+[2026-03-27 12:14:25,140][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1501b095_N/VTK/case_HDB_1501b095_N.vtk: Volume data file not found
+[2026-03-27 12:14:25,140][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1546b067_S/VTK/buildings/buildings_1.vtp: Geometry file not found
+[2026-03-27 12:14:25,140][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1546b067_S/VTK/case_HDB_1546b067_S.vtk: Volume data file not found
+[2026-03-27 12:14:25,140][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1581b018_E/VTK/buildings/buildings_1.vtp: Geometry file not found
+[2026-03-27 12:14:25,140][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1581b018_E/VTK/case_HDB_1581b018_E.vtk: Volume data file not found
+[2026-03-27 12:14:25,140][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1574b075_S/VTK/buildings/buildings_1.vtp: Geometry file not found
+[2026-03-27 12:14:25,141][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1574b075_S/VTK/case_HDB_1574b075_S.vtk: Volume data file not found
+[2026-03-27 12:14:25,141][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1506b010_N/VTK/buildings/buildings_1.vtp: Geometry file not found
+[2026-03-27 12:14:25,141][physicsnemo_curator.utils.utils][ERROR] - /home/nguye/physicsnemo/simulation_data/simulation_data/case_HDB_1506b010_N/VTK/case_HDB_1506b010_N.vtk: Volume data file not found

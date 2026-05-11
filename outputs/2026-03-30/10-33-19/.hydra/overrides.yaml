@@ -1,0 +1,4 @@
+- etl.source.input_dir=/home/nguye/physicsnemo/simulation_data/simulation_data
+- etl.sink.output_dir=/home/nguye/physicsnemo/Dataset/HDB_1_input
+- etl.common.model_type=combined
+- serialization_format=numpy
